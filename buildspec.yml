@@ -14,13 +14,6 @@ phases:
       - terraform init
       - terraform plan -detailed-exitcode || export PLAN_EXIT=$?
       - echo "Exit code: $PLAN_EXIT"
-      - >
-        if [ "$PLAN_EXIT" = "2" ]; then
-          echo "Drift detected"
-          terraform apply -auto-approve
-          echo "Auto remediation done"
-        elif [ "$PLAN_EXIT" = "0" ]; then
-          echo "No drift"
-        else
-          echo "Error"
-        fi
+      - if [ "$PLAN_EXIT" = "2" ]; then echo "Drift detected"; terraform apply -auto-approve; echo "Auto remediation done"; fi
+      - if [ "$PLAN_EXIT" = "0" ]; then echo "No drift"; fi
+      - if [ "$PLAN_EXIT" != "0" ] && [ "$PLAN_EXIT" != "2" ]; then echo "Error"; fi
