@@ -14,7 +14,7 @@ phases:
       - terraform init
       - terraform plan -detailed-exitcode || export PLAN_EXIT=$?
       - echo "Exit code: $PLAN_EXIT"
-      - |
+      - >
         if [ "$PLAN_EXIT" = "2" ]; then
           echo "Drift detected"
           terraform apply -auto-approve
