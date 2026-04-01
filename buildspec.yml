@@ -12,6 +12,4 @@ phases:
     commands:
       - echo Starting Terraform
       - terraform init
-      - terraform plan -detailed-exitcode || export PLAN_EXIT=$?
-      - echo "Exit code: $PLAN_EXIT"
-      - echo "Drift check completed"
+      - terraform plan -detailed-exitcode
