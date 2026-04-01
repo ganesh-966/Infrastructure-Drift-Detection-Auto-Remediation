@@ -3,17 +3,15 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing Terraform"
+      - echo Installing Terraform
       - wget https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
-      - unzip -o terraform_1.6.0_linux_amd64.zip
+      - unzip terraform_1.6.0_linux_amd64.zip
       - mv terraform /usr/local/bin/
 
   build:
     commands:
-      - echo "Starting Terraform"
+      - echo Starting Terraform
       - terraform init
       - terraform plan -detailed-exitcode || export PLAN_EXIT=$?
       - echo "Exit code: $PLAN_EXIT"
-      - if [ "$PLAN_EXIT" = "2" ]; then echo "Drift detected"; terraform apply -auto-approve; echo "Auto remediation done"; fi
-      - if [ "$PLAN_EXIT" = "0" ]; then echo "No drift"; fi
-      - if [ "$PLAN_EXIT" != "0" ] && [ "$PLAN_EXIT" != "2" ]; then echo "Error"; fi
+      - echo "Drift check completed"
